@@ -89,7 +89,7 @@
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
-              <h3>$<?php 
+              <h3>₱<?php 
               if(isset($salary))
               {
                 foreach ($salary as $s) {
