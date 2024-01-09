@@ -6,7 +6,7 @@
 
 **Recommended PHP Version 5.6.3 and Newer**
 
-
+Login details
 **Admin Login Details**
 
 Username: admin
