@@ -372,6 +372,7 @@ INSERT INTO `login_tbl` (`id`, `username`, `password`, `usertype`, `status`) VAL
 -- Table structure for table `salary_tbl`
 --
 
+-- Create the salary_tbl table
 CREATE TABLE `salary_tbl` (
   `id` int(11) NOT NULL,
   `staff_id` int(11) NOT NULL,
@@ -383,16 +384,24 @@ CREATE TABLE `salary_tbl` (
   `added_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `salary_tbl`
---
+-- Add the tax and net_total columns to the salary_tbl table
+ALTER TABLE `salary_tbl`
+ADD COLUMN `tax` bigint(20) NOT NULL DEFAULT 0 AFTER `total`,
+ADD COLUMN `net_total` bigint(20) NOT NULL DEFAULT 0 AFTER `tax`;
 
-INSERT INTO `salary_tbl` (`id`, `staff_id`, `basic_salary`, `allowance`, `total`, `added_by`, `updated_on`, `added_on`) VALUES
-(1, 2, 14000, 0, 14000, 1, '0000-00-00', '2021-05-02 08:23:30'),
-(2, 3, 9100, 300, 9400, 1, '0000-00-00', '2021-04-28 02:39:23'),
-(3, 4, 4950, 0, 4950, 1, '0000-00-00', '2021-04-30 07:38:02'),
-(4, 5, 6100, 250, 6350, 1, '0000-00-00', '2021-04-30 13:57:02'),
-(5, 9, 4750, 190, 4940, 1, '0000-00-00', '2021-05-27 17:31:05');
+-- Update the existing records with tax and net_total values
+UPDATE `salary_tbl` SET
+    `tax` = ROUND(`total` * 0.10),
+    `net_total` = `total` - ROUND(`total` * 0.10);
+
+-- Dumping data for table `salary_tbl`
+INSERT INTO `salary_tbl` (`id`, `staff_id`, `basic_salary`, `allowance`, `total`, `tax`, `net_total`, `added_by`, `updated_on`, `added_on`) VALUES
+(1, 2, 14000, 0, 14000, 1400, 12600, 1, '0000-00-00', '2021-05-02 08:23:30'),
+(2, 3, 9100, 300, 9400, 940, 8460, 1, '0000-00-00', '2021-04-28 02:39:23'),
+(3, 4, 4950, 0, 4950, 495, 4455, 1, '0000-00-00', '2021-04-30 07:38:02'),
+(4, 5, 6100, 250, 6350, 635, 5715, 1, '0000-00-00', '2021-04-30 13:57:02'),
+(5, 9, 4750, 190, 4940, 494, 4446, 1, '0000-00-00', '2021-05-27 17:31:05');
+
 
 -- --------------------------------------------------------
 
