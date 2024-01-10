@@ -522,4 +522,5 @@ ALTER TABLE `staff_tbl`
 ALTER TABLE staff_tbl
 ADD COLUMN sss_number INT(10),
 ADD COLUMN pag_ibig_number INT(12),
-ADD COLUMN tin_number INT(12);
+ADD COLUMN tin_number INT(12),
+ADD COLUMN phil_health INT(12);

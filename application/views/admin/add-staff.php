@@ -183,6 +183,13 @@
                   </div>
                 </div>
 
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>PhilHealth Number</label>
+                    <input type="text" name="txtph" class="form-control" placeholder="PhilHealth Number">
+                  </div>
+                </div>
+
                 
               </div>
               <!-- /.box-body -->

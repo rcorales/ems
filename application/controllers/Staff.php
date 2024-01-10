@@ -60,6 +60,7 @@ class Staff extends CI_Controller {
         $sss_number = $this->input->post('txtsss');
         $pag_ibig_number = $this->input->post('txtpagibig');
         $tin_number = $this->input->post('txttin');
+        $phil_health = $this->input->post('txttph');
 
         if ($this->form_validation->run() !== false) {
             $this->load->library('image_lib');
@@ -104,7 +105,8 @@ class Staff extends CI_Controller {
                     'added_by' => $added,
                     'sss_number' => $sss_number,
                     'pag_ibig_number' => $pag_ibig_number,
-                    'tin_number' => $tin_number
+                    'tin_number' => $tin_number,
+                    'phil_health' => $phil_health
                 ));
             }
             
@@ -141,6 +143,7 @@ class Staff extends CI_Controller {
         $sss_number = $this->input->post('txtsss');
         $pag_ibig_number = $this->input->post('txtpagibig');
         $tin_number = $this->input->post('txttin');
+        $phil_health = $this->input->post('txttph');
 
         if ($this->form_validation->run() !== false) {
             $this->load->library('image_lib');
@@ -162,6 +165,7 @@ class Staff extends CI_Controller {
                     'sss_number' => $sss_number,
                     'pag_ibig_number' => $pag_ibig_number,
                     'tin_number' => $tin_number,
+                    'phil_health' => $phil_health,
                 ), $id);
             } else {
                 $image_data = $this->upload->data();
@@ -193,6 +197,7 @@ class Staff extends CI_Controller {
                     'sss_number' => $sss_number,
                     'pag_ibig_number' => $pag_ibig_number,
                     'tin_number' => $tin_number,
+                    'phil_health' => $phil_health,
                     'added_by' => $added
                 ), $id);
             }

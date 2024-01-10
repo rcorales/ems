@@ -61,6 +61,7 @@
                     <th>SSN Number</th> <!-- New Column -->
                     <th>PAG-IBIG Number</th> <!-- New Column -->
                     <th>TIN Number</th> <!-- New Column -->
+                    <th>PhilHealth Number</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -87,6 +88,7 @@
                       <td><?php echo $cnt['sss_number']; ?></td> <!-- Display SSN Number -->
                       <td><?php echo $cnt['pag_ibig_number']; ?></td> <!-- Display PAG-IBIG Number -->
                       <td><?php echo $cnt['tin_number']; ?></td> <!-- Display TIN Number -->
+                      <td><?php echo $cnt['phil_health']; ?></td> <!-- Display TIN Number -->
                       <td>
                         <a href="<?php echo base_url(); ?>edit-staff/<?php echo $cnt['id']; ?>" class="btn btn-success">Edit</a>
                         <a href="<?php echo base_url(); ?>delete-staff/<?php echo $cnt['id']; ?>" class="btn btn-danger">Delete</a>
