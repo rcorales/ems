@@ -199,4 +199,8 @@
     </section>
     <!-- /.content -->
   </div>
+<<<<<<< HEAD
   <!-- /.content-wrapper -->
+=======
+  <!-- /.content-wrapper -->
+>>>>>>> ed5d8aca39087452c837a3fad294ff6f552ec122
