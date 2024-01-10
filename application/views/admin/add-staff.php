@@ -161,6 +161,28 @@
                     <textarea class="form-control" name="txtaddress"></textarea>
                   </div>
                 </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>SSS Number</label>
+                    <input type="text" name="txtsss" class="form-control" placeholder="SSS Number">
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>PAG-IBIG Number</label>
+                    <input type="text" name="txtpagibig" class="form-control" placeholder="PAG-IBIG Number">
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>TIN Number</label>
+                    <input type="text" name="txttin" class="form-control" placeholder="TIN Number">
+                  </div>
+                </div>
+
                 
               </div>
               <!-- /.box-body -->
