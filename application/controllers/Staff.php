@@ -44,6 +44,7 @@ class Staff extends CI_Controller {
         $this->form_validation->set_rules('txtsss', 'SSS Number', 'required');
         $this->form_validation->set_rules('txtpagibig', 'PAG-IBIG Number', 'required');
         $this->form_validation->set_rules('txttin', 'TIN Number', 'required');
+        $this->form_validation->set_rules('txtph', 'PhilHealth Number', 'required');
 
         $name = $this->input->post('txtname');
         $gender = $this->input->post('slcgender');
@@ -60,7 +61,7 @@ class Staff extends CI_Controller {
         $sss_number = $this->input->post('txtsss');
         $pag_ibig_number = $this->input->post('txtpagibig');
         $tin_number = $this->input->post('txttin');
-        $phil_health = $this->input->post('txttph');
+        $phil_health = $this->input->post('txtph');
 
         if ($this->form_validation->run() !== false) {
             $this->load->library('image_lib');
@@ -143,7 +144,7 @@ class Staff extends CI_Controller {
         $sss_number = $this->input->post('txtsss');
         $pag_ibig_number = $this->input->post('txtpagibig');
         $tin_number = $this->input->post('txttin');
-        $phil_health = $this->input->post('txttph');
+        $phil_health = $this->input->post('txtph');
 
         if ($this->form_validation->run() !== false) {
             $this->load->library('image_lib');
@@ -165,7 +166,7 @@ class Staff extends CI_Controller {
                     'sss_number' => $sss_number,
                     'pag_ibig_number' => $pag_ibig_number,
                     'tin_number' => $tin_number,
-                    'phil_health' => $phil_health,
+                    'phil_health' => $phil_health
                 ), $id);
             } else {
                 $image_data = $this->upload->data();
