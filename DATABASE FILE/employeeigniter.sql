@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 27, 2021 at 07:39 PM
--- Server version: 5.6.21
--- PHP Version: 5.6.3
+-- Generation Time: Jan 10, 2024 at 04:35 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -30,7 +31,7 @@ CREATE TABLE `country_tbl` (
   `id` int(11) NOT NULL,
   `country_code` varchar(2) NOT NULL DEFAULT '',
   `country_name` varchar(100) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `country_tbl`
@@ -293,8 +294,8 @@ INSERT INTO `country_tbl` (`id`, `country_code`, `country_name`) VALUES
 CREATE TABLE `department_tbl` (
   `id` int(11) NOT NULL,
   `department_name` varchar(100) NOT NULL,
-  `added_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `added_on` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `department_tbl`
@@ -319,12 +320,12 @@ CREATE TABLE `leave_tbl` (
   `staff_id` int(11) NOT NULL,
   `leave_reason` varchar(90) NOT NULL,
   `description` text NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '0',
+  `status` int(11) NOT NULL DEFAULT 0,
   `leave_from` date NOT NULL,
   `leave_to` date NOT NULL,
   `updated_on` date NOT NULL,
   `applied_on` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `leave_tbl`
@@ -348,8 +349,8 @@ CREATE TABLE `login_tbl` (
   `username` varchar(80) NOT NULL,
   `password` varchar(80) NOT NULL,
   `usertype` int(11) NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `status` int(11) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `login_tbl`
@@ -364,7 +365,9 @@ INSERT INTO `login_tbl` (`id`, `username`, `password`, `usertype`, `status`) VAL
 (6, 'barnes@gmail.com', '1010101010', 2, 1),
 (7, 'samuel@gmail.com', '7410000010', 2, 1),
 (8, 'markh@gmail.com', '7070707069', 2, 1),
-(9, 'angela@gmail.com', '7417417417', 2, 1);
+(9, 'angela@gmail.com', '7417417417', 2, 1),
+(10, 'efafafadf@gmail.com', '00000000000', 2, 1),
+(11, 'efafaeqefadf@gmail.com', '09872232314', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -378,21 +381,23 @@ CREATE TABLE `salary_tbl` (
   `basic_salary` bigint(20) NOT NULL,
   `allowance` bigint(20) NOT NULL,
   `total` bigint(20) NOT NULL,
+  `tax` bigint(20) NOT NULL DEFAULT 0,
+  `net_total` bigint(20) NOT NULL DEFAULT 0,
   `added_by` int(11) NOT NULL,
   `updated_on` date NOT NULL,
-  `added_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `added_on` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `salary_tbl`
 --
 
-INSERT INTO `salary_tbl` (`id`, `staff_id`, `basic_salary`, `allowance`, `total`, `added_by`, `updated_on`, `added_on`) VALUES
-(1, 2, 14000, 0, 14000, 1, '0000-00-00', '2021-05-02 08:23:30'),
-(2, 3, 9100, 300, 9400, 1, '0000-00-00', '2021-04-28 02:39:23'),
-(3, 4, 4950, 0, 4950, 1, '0000-00-00', '2021-04-30 07:38:02'),
-(4, 5, 6100, 250, 6350, 1, '0000-00-00', '2021-04-30 13:57:02'),
-(5, 9, 4750, 190, 4940, 1, '0000-00-00', '2021-05-27 17:31:05');
+INSERT INTO `salary_tbl` (`id`, `staff_id`, `basic_salary`, `allowance`, `total`, `tax`, `net_total`, `added_by`, `updated_on`, `added_on`) VALUES
+(1, 2, 14000, 0, 14000, 1400, 12600, 1, '0000-00-00', '2021-05-02 08:23:30'),
+(2, 3, 9100, 300, 9400, 940, 8460, 1, '0000-00-00', '2021-04-28 02:39:23'),
+(3, 4, 4950, 0, 4950, 495, 4455, 1, '0000-00-00', '2021-04-30 07:38:02'),
+(4, 5, 6100, 250, 6350, 635, 5715, 1, '0000-00-00', '2021-04-30 13:57:02'),
+(5, 9, 4750, 190, 4940, 494, 4446, 1, '0000-00-00', '2021-05-27 17:31:05');
 
 -- --------------------------------------------------------
 
@@ -408,7 +413,7 @@ CREATE TABLE `staff_tbl` (
   `mobile` bigint(20) NOT NULL,
   `dob` date NOT NULL,
   `doj` date NOT NULL,
-  `address` text,
+  `address` text DEFAULT NULL,
   `city` varchar(100) NOT NULL,
   `state` varchar(100) NOT NULL,
   `country` varchar(50) NOT NULL,
@@ -416,22 +421,27 @@ CREATE TABLE `staff_tbl` (
   `pic` varchar(150) NOT NULL DEFAULT 'default-pic.jpg',
   `added_by` int(11) NOT NULL,
   `updated_on` date NOT NULL,
-  `added_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `added_on` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `sss_number` int(10) DEFAULT NULL,
+  `pag_ibig_number` int(12) DEFAULT NULL,
+  `tin_number` int(12) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `staff_tbl`
 --
 
-INSERT INTO `staff_tbl` (`id`, `staff_name`, `gender`, `email`, `mobile`, `dob`, `doj`, `address`, `city`, `state`, `country`, `department_id`, `pic`, `added_by`, `updated_on`, `added_on`) VALUES
-(2, 'Steven Askew', 'Male', 'steven@gmail.com', 7444440001, '1990-02-18', '2020-11-27', '3721  Hill Croft Farm Road', 'BURLINGTON', 'MI', 'United States', 1, 'smportrait.jpg', 0, '0000-00-00', '2021-05-27 15:37:03'),
-(3, 'Tatiana Breit', 'Female', 'tatiana@gmail.com', 7402222220, '1994-10-14', '2021-02-21', '3397  Happy Hollow Road', 'Jacksonville', 'NC', 'United States', 2, 'prtwm.jpg', 0, '0000-00-00', '2021-05-27 15:37:16'),
-(4, 'Christine Moore', 'Female', 'christine@gmail.com', 8888877777, '1994-08-01', '2020-01-15', '4047  Timbercrest Road', 'Anchorage', 'AK', 'United States', 3, 'christen-freeimg.jpg', 0, '0000-00-00', '2021-05-27 15:31:20'),
-(5, 'Liam Moore', 'Male', 'liam@gmail.com', 7410233333, '1994-12-02', '2021-04-04', '3474  Viking Drive', 'Worthington', 'OH', 'United States', 4, '7002489_preview.jpg', 1, '0000-00-00', '2021-05-27 13:55:22'),
-(6, 'George J Barnes', 'Male', 'barnes@gmail.com', 1010101010, '1988-02-03', '2021-01-13', '3079  Chardonnay Drive', 'Ocala', 'FL', 'United States', 2, 'skport.jpg', 1, '0000-00-00', '2021-05-27 15:28:48'),
-(7, 'Samuel Huntsman', 'Male', 'samuel@gmail.com', 7410000010, '1991-12-28', '2021-04-25', '2315  Cherry Tree Drive', 'Jacksonville', 'FL', 'United States', 5, 'dportrait.jpg', 1, '0000-00-00', '2021-05-27 16:52:18'),
-(8, 'Mark Heiden', 'Male', 'markh@gmail.com', 7070707069, '1990-02-12', '2021-02-04', '2190  Laurel Lane', 'Midland', 'TX', 'United States', 2, 'pauptr.jpg', 1, '0000-00-00', '2021-05-27 16:53:57'),
-(9, 'Angela Bridges', 'Female', 'angela@gmail.com', 7417417417, '1992-02-11', '2021-03-05', '3538 Melville Street', 'Jackson', 'TN', 'United States', 6, 'sm-freeimg.jpg', 1, '0000-00-00', '2021-05-27 17:29:36');
+INSERT INTO `staff_tbl` (`id`, `staff_name`, `gender`, `email`, `mobile`, `dob`, `doj`, `address`, `city`, `state`, `country`, `department_id`, `pic`, `added_by`, `updated_on`, `added_on`, `sss_number`, `pag_ibig_number`, `tin_number`) VALUES
+(2, 'Steven Askew', 'Male', 'steven@gmail.com', 7444440001, '1990-02-18', '2020-11-27', '3721  Hill Croft Farm Road', 'BURLINGTON', 'MI', 'United States', 1, 'smportrait.jpg', 0, '0000-00-00', '2021-05-27 15:37:03', NULL, NULL, NULL),
+(3, 'Tatiana Breit', 'Female', 'tatiana@gmail.com', 7402222220, '1994-10-14', '2021-02-21', '3397  Happy Hollow Road', 'Jacksonville', 'NC', 'United States', 2, 'prtwm.jpg', 0, '0000-00-00', '2021-05-27 15:37:16', NULL, NULL, NULL),
+(4, 'Christine Moore', 'Female', 'christine@gmail.com', 8888877777, '1994-08-01', '2020-01-15', '4047  Timbercrest Road', 'Anchorage', 'AK', 'United States', 3, 'christen-freeimg.jpg', 0, '0000-00-00', '2021-05-27 15:31:20', NULL, NULL, NULL),
+(5, 'Liam Moore', 'Male', 'liam@gmail.com', 7410233333, '1994-12-02', '2021-04-04', '3474  Viking Drive', 'Worthington', 'OH', 'United States', 4, '7002489_preview.jpg', 1, '0000-00-00', '2021-05-27 13:55:22', NULL, NULL, NULL),
+(6, 'George J Barnes', 'Male', 'barnes@gmail.com', 1010101010, '1988-02-03', '2021-01-13', '3079  Chardonnay Drive', 'Ocala', 'FL', 'United States', 2, 'skport.jpg', 1, '0000-00-00', '2021-05-27 15:28:48', NULL, NULL, NULL),
+(7, 'Samuel Huntsman', 'Male', 'samuel@gmail.com', 7410000010, '1991-12-28', '2021-04-25', '2315  Cherry Tree Drive', 'Jacksonville', 'FL', 'United States', 5, 'dportrait.jpg', 1, '0000-00-00', '2021-05-27 16:52:18', NULL, NULL, NULL),
+(8, 'Mark Heiden', 'Male', 'markh@gmail.com', 7070707069, '1990-02-12', '2021-02-04', '2190  Laurel Lane', 'Midland', 'TX', 'United States', 2, 'pauptr.jpg', 1, '0000-00-00', '2021-05-27 16:53:57', NULL, NULL, NULL),
+(9, 'Angela Bridges', 'Female', 'angela@gmail.com', 7417417417, '1992-02-11', '2021-03-05', '3538 Melville Street', 'Jackson', 'TN', 'United States', 6, 'sm-freeimg.jpg', 1, '0000-00-00', '2024-01-10 03:20:10', 512357612, 23424324, 2147483647),
+(10, 'sdasdasda', 'Male', 'efafafadf@gmail.com', 0, '2024-01-12', '2024-01-02', 'afafaf', 'aasdadasd', 'asfaff', 'Bangladesh', 2, 'default-pic.jpg', 1, '0000-00-00', '2024-01-10 03:18:25', 31312123, 23424324, 2147483647),
+(11, 'asdadas', 'Female', 'efafaeqefadf@gmail.com', 9872232314, '2024-01-01', '2024-01-25', '1241 efaafa qqwqw', 'aasdadasd', 'sasdasdasd', 'Bahamas', 2, 'default-pic.jpg', 1, '0000-00-00', '2024-01-10 03:27:27', 1312312321, 23424324, 2147483647);
 
 --
 -- Indexes for dumped tables
@@ -482,31 +492,38 @@ ALTER TABLE `staff_tbl`
 --
 ALTER TABLE `country_tbl`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=247;
+
 --
 -- AUTO_INCREMENT for table `department_tbl`
 --
 ALTER TABLE `department_tbl`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
 --
 -- AUTO_INCREMENT for table `leave_tbl`
 --
 ALTER TABLE `leave_tbl`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 --
 -- AUTO_INCREMENT for table `login_tbl`
 --
 ALTER TABLE `login_tbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
 --
 -- AUTO_INCREMENT for table `salary_tbl`
 --
 ALTER TABLE `salary_tbl`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 --
 -- AUTO_INCREMENT for table `staff_tbl`
 --
 ALTER TABLE `staff_tbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
