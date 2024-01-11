@@ -271,6 +271,13 @@
                       </div>
                     </div>
 
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Tax Percentage</label>
+                            <input type="text" name="txttaxpercentage" value="<?php echo $cnt['tax_percentage']; ?>" class="form-control" placeholder="Tax Percentage">
+                        </div>
+                    </div>
+
                   </div>
                   <!-- /.box-body -->
                   <div class="box-footer">

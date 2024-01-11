@@ -527,4 +527,6 @@ ALTER TABLE `staff_tbl`
   ADD COLUMN `sss_contrib` INT(10),
   ADD COLUMN `pag_ibig_contrib` INT(10),
   ADD COLUMN `tin_contrib` INT(10),
-  ADD COLUMN `phil_health_contrib` INT(10);
+  ADD COLUMN `phil_health_contrib` INT(10),
+  ADD COLUMN `tax_percentage` DECIMAL(5,2);
+

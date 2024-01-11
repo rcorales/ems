@@ -48,7 +48,8 @@ class Staff extends CI_Controller {
         $this->form_validation->set_rules('txtssscontrib', 'SSS Contributions');
         $this->form_validation->set_rules('txtpagibigcontrib', 'PAG-IBIG Contributions');
         $this->form_validation->set_rules('txttincontrib', 'TIN Contributions');
-        $this->form_validation->set_rules('txtphcontrib', 'PhilHealth Contributions');        
+        $this->form_validation->set_rules('txtphcontrib', 'PhilHealth Contributions');
+        $this->form_validation->set_rules('txttaxpercentage', 'Tax Percentage', 'required');        
 
         $name = $this->input->post('txtname');
         $gender = $this->input->post('slcgender');
@@ -70,6 +71,7 @@ class Staff extends CI_Controller {
         $pag_ibig_contrib = $this->input->post('txtpagibigcontrib');
         $tin_contrib = $this->input->post('txttincontrib');
         $phil_health_contrib = $this->input->post('txtphcontrib');
+        $taxPercentage = $this->input->post('txttaxpercentage');
 
         if ($this->form_validation->run() !== false) {
             $this->load->library('image_lib');
@@ -119,7 +121,8 @@ class Staff extends CI_Controller {
                     'sss_contrib' => $sss_contrib,
                     'pag_ibig_contrib' => $pag_ibig_contrib,
                     'tin_contrib' => $tin_contrib,
-                    'phil_health_contrib' => $phil_health_contrib,  
+                    'phil_health_contrib' => $phil_health_contrib,
+                    'tax_percentage' => $taxPercentage,
                 ));
             }
             
@@ -161,6 +164,7 @@ class Staff extends CI_Controller {
         $pag_ibig_contrib = $this->input->post('txtpagibigcontrib');
         $tin_contrib = $this->input->post('txttincontrib');
         $phil_health_contrib = $this->input->post('txtphcontrib');
+        $taxPercentage = $this->input->post('txttaxpercentage');
 
         if ($this->form_validation->run() !== false) {
             $this->load->library('image_lib');
@@ -186,7 +190,8 @@ class Staff extends CI_Controller {
                     'sss_contrib' => $sss_contrib,
                     'pag_ibig_contrib' => $pag_ibig_contrib,
                     'tin_contrib' => $tin_contrib,
-                    'phil_health_contrib' => $phil_health_contrib,  
+                    'phil_health_contrib' => $phil_health_contrib,
+                    'tax_percentage' => $taxPercentage  
                 ), $id);
             } else {
                 $image_data = $this->upload->data();
@@ -222,7 +227,8 @@ class Staff extends CI_Controller {
                     'sss_contrib' => $sss_contrib,
                     'pag_ibig_contrib' => $pag_ibig_contrib,
                     'tin_contrib' => $tin_contrib,
-                    'phil_health_contrib' => $phil_health_contrib,                    
+                    'phil_health_contrib' => $phil_health_contrib,
+                    'tax_percentage' => $taxPercentage,                    
                     'added_by' => $added
                 ), $id);
             }

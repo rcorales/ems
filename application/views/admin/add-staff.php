@@ -218,6 +218,14 @@
                   </div>
                 </div>
 
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Tax Percentage</label>
+                        <input type="text" name="txttaxpercentage" class="form-control" placeholder="Tax Percentage">
+                    </div>
+                </div>
+
+
                 
               </div>
               <!-- /.box-body -->
