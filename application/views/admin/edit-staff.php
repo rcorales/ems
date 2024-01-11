@@ -239,7 +239,7 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>PhilHealth Number</label>
-                        <input type="text" name="txttph" value="<?php echo $cnt['phil_health'] ?>" class="form-control" placeholder="PhilHealth Number">
+                        <input type="text" name="txtph" value="<?php echo $cnt['phil_health'] ?>" class="form-control" placeholder="PhilHealth Number">
                       </div>
                     </div>
 
