@@ -523,10 +523,24 @@ ALTER TABLE `staff_tbl`
   ADD COLUMN `sss_number` INT(10),
   ADD COLUMN `pag_ibig_number` INT(12),
   ADD COLUMN `tin_number` INT(12),
-  ADD COLUMN `phil_health` INT(12),
+  ADD COLUMN `phil_health` INT(12);
+
+UPDATE `staff_tbl` SET
+  `sss_number` = 0,
+  `pag_ibig_number` = 0,
+  `tin_number` = 0,
+  `phil_health` = 0;
+
+ALTER TABLE `salary_tbl`
   ADD COLUMN `sss_contrib` INT(10),
   ADD COLUMN `pag_ibig_contrib` INT(10),
   ADD COLUMN `tin_contrib` INT(10),
   ADD COLUMN `phil_health_contrib` INT(10),
   ADD COLUMN `tax_percentage` DECIMAL(5,2);
 
+UPDATE `salary_tbl` SET
+  `sss_contrib` = 0,
+  `pag_ibig_contrib` = 0,
+  `tin_contrib` = 0,
+  `phil_health_contrib` = 0,
+  `tax_percentage` = 0.00;

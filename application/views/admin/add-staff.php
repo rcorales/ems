@@ -189,44 +189,7 @@
                     <input type="text" name="txtph" class="form-control" placeholder="PhilHealth Number">
                   </div>
                 </div>
-
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>SSS Contribution</label>
-                    <input type="text" name="txtssscontrib" class="form-control" placeholder="SSS Contribution">
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>Pag-IBIG Contribution</label>
-                    <input type="text" name="txtpagibigcontrib" class="form-control" placeholder="Pag-IBIG Contribution">
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>TIN Contribution</label>
-                    <input type="text" name="txttincontrib" class="form-control" placeholder="TIN Contribution">
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>PhilHealth Contribution</label>
-                    <input type="text" name="txtphcontrib" class="form-control" placeholder="PhilHealth Contribution">
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Tax Percentage</label>
-                        <input type="text" name="txttaxpercentage" class="form-control" placeholder="Tax Percentage">
-                    </div>
-                </div>
-
-
-                
+               
               </div>
               <!-- /.box-body -->
               <div class="box-footer">

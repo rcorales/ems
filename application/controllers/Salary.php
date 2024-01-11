@@ -130,57 +130,67 @@ class Salary extends CI_Controller {
     public function get_salary_list()
     {
         $dept = $_POST['dept'];
-        $data=$this->Staff_model->select_staff_byDept($dept);
-        if(isset($data)){
-            print '<div class="box-body">
-            <div class="col-md-12">
-            <div class="table-responsive">
-            <table class="table table-bordered table-striped">
-            <thead>
-                  <tr>
-                    <th>Staff</th>
-                    <th>Basic Salary ($)</th>
-                    <th>Allowance ($)</th>
-                    <th>Total ($)</th>
-                  </tr>
-                  </thead>
-                  <tbody>';
-
-            foreach($data as $d)
-            {
-                print '<tr>
-                <td>'.$d["staff_name"].'</td>
-                <td><input type="hidden" name="txtid[]" value="'.$d["id"].'">
-                    <input type="text" name="txtbasic[]" class="form-control expenses">
-                </td>
-                <td><input type="text" name="txtallowance[]" class="form-control expenses"></td>
-                <td><input type="text" id="total" name="txttotal[]" class="form-control"></td>
-                </tr>';
-            }
-            print '</tbody>
-            </table>
+        $data = $this->Staff_model->select_staff_byDept($dept);
+    
+        if (isset($data)) {
+            ?>
+            <div class="box-body">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Staff</th>
+                                    <th>Basic Salary ($)</th>
+                                    <th>Allowance ($)</th>
+                                    <th>PAG-IBIG Contributions ($)</th>
+                                    <th>SSS Contributions ($)</th>
+                                    <th>PhilHealth Contributions ($)</th>
+                                    <th>Tax Percentage(%)</th>
+                                    <th>Total ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($data as $d) : ?>
+                                    <tr>
+                                        <td><?= $d["staff_name"] ?></td>
+                                        <td>
+                                            <input type="hidden" name="txtid[]" value="<?= $d["id"] ?>">
+                                            <input type="text" name="txtbasic[]" class="form-control expenses" oninput="calculateTotal(this)">
+                                        </td>
+                                        <td><input type="text" name="txtallowance[]" class="form-control expenses" oninput="calculateTotal(this)"></td>
+                                        <td><input type="text" name="txtpagibig[]" class="form-control pagibig" oninput="calculateTotal(this)"></td>
+                                        <td><input type="text" name="txtsss[]" class="form-control sss" oninput="calculateTotal(this)"></td>
+                                        <td><input type="text" name="txtphilhealth[]" class="form-control philhealth" oninput="calculateTotal(this)"></td>
+                                        <td><input type="text" name="txttaxpercentage[]" class="form-control taxpercentage" oninput="calculateTotal(this)"></td>
+                                        <td><input type="text" name="txttotal[]" class="form-control total" readonly></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            </div>
-            </div>
-
             <div class="box-footer">
                 <button type="submit" class="btn btn-success pull-right">Submit</button>
-              </div>';
-            // print '<div class="col-md-12">
-            //       <div class="form-group">
-            //         <label for="exampleInputPassword1">Department Name</label>
-            //         <select class="form-control" name="slcdepartment" onchange="getstaff(this.value)">
-            //           <option value="">Select</option>
-                        
-            //         </select>
-            //       </div>
-            //     </div>';
+            </div>
+            <script>
+                function calculateTotal(input) {
+                    var row = input.closest("tr");
+                    var basic = parseFloat(row.querySelector("[name='txtbasic[]']").value) || 0;
+                    var allowance = parseFloat(row.querySelector("[name='txtallowance[]']").value) || 0;
+                    var pagibig = parseFloat(row.querySelector("[name='txtpagibig[]']").value) || 0;
+                    var sss = parseFloat(row.querySelector("[name='txtsss[]']").value) || 0;
+                    var philhealth = parseFloat(row.querySelector("[name='txtphilhealth[]']").value) || 0;
+                    var taxpercentage = parseFloat(row.querySelector("[name='txttaxpercentage[]']").value) || 0;
+    
+                    var total = basic - (pagibig + sss + philhealth + (basic * taxpercentage)) + allowance;
+    
+                    row.querySelector("[name='txttotal[]']").value = total.toFixed(2);
+                }
+            </script>
+            <?php
         }
-        
-        
-
     }
-
-
-
-}
+}    
+    
