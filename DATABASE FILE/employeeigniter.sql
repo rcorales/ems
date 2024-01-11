@@ -519,8 +519,12 @@ ALTER TABLE `staff_tbl`
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
-ALTER TABLE staff_tbl
-ADD COLUMN sss_number INT(10),
-ADD COLUMN pag_ibig_number INT(12),
-ADD COLUMN tin_number INT(12),
-ADD COLUMN phil_health INT(12);
+ALTER TABLE `staff_tbl`
+  ADD COLUMN `sss_number` INT(10),
+  ADD COLUMN `pag_ibig_number` INT(12),
+  ADD COLUMN `tin_number` INT(12),
+  ADD COLUMN `phil_health` INT(12),
+  ADD COLUMN `sss_contrib` INT(10),
+  ADD COLUMN `pag_ibig_contrib` INT(10),
+  ADD COLUMN `tin_contrib` INT(10),
+  ADD COLUMN `phil_health_contrib` INT(10);
