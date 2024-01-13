@@ -141,13 +141,13 @@ class Salary extends CI_Controller {
                             <thead>
                                 <tr>
                                     <th>Staff</th>
-                                    <th>Basic Salary ($)</th>
-                                    <th>Allowance ($)</th>
-                                    <th>PAG-IBIG Contributions ($)</th>
-                                    <th>SSS Contributions ($)</th>
-                                    <th>PhilHealth Contributions ($)</th>
-                                    <th>Tax Percentage(%)</th>
-                                    <th>Total ($)</th>
+                                    <th>Basic Salary (₱)</th>
+                                    <th>Allowance (₱)</th>
+                                    <th>PAG-IBIG Contributions (₱)</th>
+                                    <th>SSS Contributions (₱)</th>
+                                    <th>PhilHealth Contributions (₱)</th>
+                                    <th>Taxable Income (₱)</th>
+                                    <th>Total (₱)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -175,19 +175,50 @@ class Salary extends CI_Controller {
                 <button type="submit" class="btn btn-success pull-right">Submit</button>
             </div>
             <script>
-                function calculateTotal(input) {
-                    var row = input.closest("tr");
-                    var basic = parseFloat(row.querySelector("[name='txtbasic[]']").value) || 0;
-                    var allowance = parseFloat(row.querySelector("[name='txtallowance[]']").value) || 0;
-                    var pagibig = parseFloat(row.querySelector("[name='txtpagibig[]']").value) || 0;
-                    var sss = parseFloat(row.querySelector("[name='txtsss[]']").value) || 0;
-                    var philhealth = parseFloat(row.querySelector("[name='txtphilhealth[]']").value) || 0;
-                    var taxpercentage = parseFloat(row.querySelector("[name='txttaxpercentage[]']").value) || 0;
-    
-                    var total = basic - (pagibig + sss + philhealth + (basic * taxpercentage)) + allowance;
-    
-                    row.querySelector("[name='txttotal[]']").value = total.toFixed(2);
-                }
+
+var sssRateEmployee = 0.0363;  // SSS contribution rate (employee)
+var sssRateEmployer = 0.0737;  // SSS contribution rate (employer)
+var pagibigRate = 0.02;  // Pag-IBIG contribution rate (assuming 2% for all incomes)
+var philhealthRateBelow10k = 0.035;  // PhilHealth contribution rate for income <= ₱10,000
+var philhealthRateAbove10k = 0.05;  // PhilHealth contribution rate for income > ₱10,000
+var taxRateBracket1 = 0.2;  // Tax rate for income above ₱250,000 up to ₱400,000
+var taxRateBracket2 = 0.25;  // Tax rate for income above ₱400,000 up to ₱800,000
+var taxRateBracket3 = 0.3;  // Tax rate for income above ₱800,000 up to ₱2,000,000
+var taxRateBracket4 = 0.32;  // Tax rate for income above ₱2,000,000 up to ₱8,000,000
+var taxRateBracket5 = 0.35;  // Tax rate for income above ₱8,000,000
+
+function calculateTotal(input) {
+    var row = input.closest("tr");
+    var basic = parseFloat(row.querySelector("[name='txtbasic[]']").value) || 0;
+    var allowance = parseFloat(row.querySelector("[name='txtallowance[]']").value) || 0;
+
+    row.querySelector("[name='txtpagibig[]']").value = (basic * pagibigRate).toFixed(2);
+    row.querySelector("[name='txtsss[]']").value = (basic * sssRateEmployee).toFixed(2);
+    row.querySelector("[name='txtphilhealth[]']").value = (basic <= 10000) ? (basic * philhealthRateBelow10k).toFixed(2) : (basic * philhealthRateAbove10k).toFixed(2);
+
+    var taxableIncome = basic - (basic * pagibigRate + basic * sssRateEmployee + ((basic <= 10000) ? basic * philhealthRateBelow10k : basic * philhealthRateAbove10k));
+
+    var tax = 0;
+    if (taxableIncome > 8000000) {
+        tax = 2410000 + (taxableIncome - 8000000) * taxRateBracket5;
+    } else if (taxableIncome > 2000000) {
+        tax = 490000 + (taxableIncome - 2000000) * taxRateBracket4;
+    } else if (taxableIncome > 800000) {
+        tax = 130000 + (taxableIncome - 800000) * taxRateBracket3;
+    } else if (taxableIncome > 400000) {
+        tax = 25000 + (taxableIncome - 400000) * taxRateBracket2;
+    } else if (taxableIncome > 250000) {
+        tax = (taxableIncome - 250000) * taxRateBracket1;
+    }
+
+    row.querySelector("[name='txttaxpercentage[]']").value = tax.toFixed(2);
+
+    var total = basic - (basic * pagibigRate + basic * sssRateEmployee + ((basic <= 10000) ? basic * philhealthRateBelow10k : basic * philhealthRateAbove10k) + tax) + allowance;
+
+    row.querySelector("[name='txttotal[]']").value = total.toFixed(2);
+}
+
+
             </script>
             <?php
         }

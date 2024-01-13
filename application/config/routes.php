@@ -87,3 +87,6 @@ $route['leave-approved/(:num)'] = 'leave/insert_approve/$1';
 $route['leave-rejected/(:num)'] = 'leave/insert_reject/$1';
 $route['view-leave'] = 'leave/view';
 $route['salaryinvoice/(:num)'] = 'salary/invoicestaff/$1';
+
+//contribution routes
+$route['config-contributions'] = 'salary';
